@@ -37,7 +37,7 @@ module.exports = class Rank {
       text: "المستوى",
       text_color: "#fff",
       number_color: "#fff",
-      size: 20,
+      size: 28,
       data_size: 40
     };
     this.rank = {
@@ -46,7 +46,7 @@ module.exports = class Rank {
       text: "المرتبة",
       text_color: "#fff",
       number_color: "#fff",
-      size: 20,
+      size: 28,
       data_size: 40
     };
     this.current_xp = {
