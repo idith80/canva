@@ -408,33 +408,29 @@ module.exports = class Rank {
     let level_text_width = 0;
     let level_width = 0;
     
-    if (this.level.display == true) {
-      ctx.textAlign = "start"; // Change to start for left alignment
-      ctx.fillStyle = this.level.number_color; // Draw number first
-      ctx.font = `${this.level.data_size}px ${this.font.name} Bold`;
-      ctx.fillText(this.level.data.toString().toUpperCase(), 250 + max_xp_bar_width - level_text_width - level_width - 5, 90); // Adjust x position
-    
-      level_width = ctx.measureText(this.level.data.toString()).width + 5;
-    
-      ctx.fillStyle = this.level.text_color; // Draw text second
-      ctx.font = `${this.level.size}px ${this.font.name} Bold`;
-      ctx.fillText(this.level.text.toUpperCase(), 250 + max_xp_bar_width - level_text_width - level_width + ctx.measureText(this.level.data.toString()).width, 90); // Adjust x position
-    
-      level_text_width = ctx.measureText(this.level.text).width + 30;
-    }
-    
-    if (this.rank.display == true) {
-      ctx.textAlign = "start"; // Change to start for left alignment
-      ctx.fillStyle = this.rank.number_color; // Draw number first
-      ctx.font = `${this.rank.data_size}px ${this.font.name} Bold`;
-      ctx.fillText(this.rank.data.toString().toUpperCase(), 200 + max_xp_bar_width - level_text_width - level_width - rank_width - 5, 90); // Adjust x position
-    
-      const rank_width = ctx.measureText(this.rank.data.toString().toUpperCase()).width + 5;
-    
-      ctx.fillStyle = this.rank.text_color; // Draw text second
-      ctx.font = `${this.rank.size}px ${this.font.name} Bold`;
-      ctx.fillText(this.rank.text.toUpperCase(), 200 + max_xp_bar_width - level_text_width - level_width - rank_width + ctx.measureText(this.rank.data.toString()).width, 90); // Adjust x position
-    }
+// Replace this section in the build method
+if (this.level.display == true) {
+  ctx.textAlign = "start"; // Change to start for left alignment
+  ctx.fillStyle = this.level.number_color; // Draw number first
+  ctx.font = `${this.level.data_size}px ${this.font.name} Bold`;
+  ctx.fillText(this.level.data.toString().toUpperCase(), 250 + max_xp_bar_width - level_text_width - level_width - 5, 90); // Adjust x position
+
+  ctx.fillStyle = this.level.text_color; // Draw text second
+  ctx.font = `${this.level.size}px ${this.font.name} Bold`;
+  ctx.fillText(this.level.text.toUpperCase(), 250 + max_xp_bar_width - level_text_width - level_width + ctx.measureText(this.level.data.toString()).width, 90); // Adjust x position
+}
+
+if (this.rank.display == true) {
+  ctx.textAlign = "start"; // Change to start for left alignment
+  ctx.fillStyle = this.rank.number_color; // Draw number first
+  ctx.font = `${this.rank.data_size}px ${this.font.name} Bold`;
+  ctx.fillText(this.rank.data.toString().toUpperCase(), 200 + max_xp_bar_width - level_text_width - level_width - rank_width - 5, 90); // Adjust x position
+
+  ctx.fillStyle = this.rank.text_color; // Draw text second
+  ctx.font = `${this.rank.size}px ${this.font.name} Bold`;
+  ctx.fillText(this.rank.text.toUpperCase(), 200 + max_xp_bar_width - level_text_width - level_width - rank_width + ctx.measureText(this.rank.data.toString()).width, 90); // Adjust x position
+}
+
     
     ctx.beginPath();
     ctx.globalAlpha = 1;
