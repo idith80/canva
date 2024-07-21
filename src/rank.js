@@ -418,9 +418,7 @@ module.exports = class Rank {
 
       ctx.fillStyle = this.level.number_color;
       ctx.font = `${this.level.size}px ${this.font.name} Bold`;
-      const rankText = this.rank.text.toUpperCase();
-      const rankNumber = this.rank.data.toString().toUpperCase();
-      ctx.fillText(`${rankText} : ${rankNumber}`, 250 + max_xp_bar_width - level_width, 90);
+      ctx.fillText(this.level.text.toUpperCase(), 250 + max_xp_bar_width - level_width, 90);
 
       level_text_width = ctx.measureText(this.level.text).width + 30;
     }
