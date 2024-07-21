@@ -160,7 +160,7 @@ type CanvafyRankData = {
       text: "المستوى",
       text_color: "#fff",
       number_color: "#fff",
-      size: 20,
+      size: 28,
       data_size: 40
     };
     rank: {
@@ -169,7 +169,7 @@ type CanvafyRankData = {
       text: "المرتبة",
       text_color: "#fff",
       number_color: "#fff",
-      size: 20,
+      size: 28,
       data_size: 40
     };
     current_xp: {
