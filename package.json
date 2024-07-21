@@ -1,0 +1,42 @@
+{
+  "name": "j",
+  "version": "7.1.0",
+  "description": "Make ",
+  "main": "index.js",
+  "types": "./typings/index.d.ts",
+
+  "scripts": {
+    "test": "node ./test/index",
+    "start": "node ./test/index",
+    "types": "tsc"
+  },
+  "author": {
+    "name": "Bes-js",
+    "url": "https://github.com/Bes-js/"
+  },
+  "license": "GPL-3.0",
+  "funding": {
+    "type": "buymeacoffee",
+    "url": "https://www.buymeacoffee.com/beykant"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bes-js/canvafy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Bes-js/canvafy"
+  },
+  "homepage": "https://bit.ly/canvafy-docs",
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.40",
+    "canvas": "^2.11.2",
+    "dayjs": "^1.11.2",
+    "fs": "^0.0.1-security",
+    "node-fetch": "^3.3.1",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.5",
+    "typescript": "^5.1.6"
+  }
+}
