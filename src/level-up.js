@@ -305,7 +305,7 @@ module.exports = class LevelUp {
     ctx.stroke();
     ctx.closePath();
 
-    ctx.font = `60px ${this.font.name} Bold`;
+    ctx.font = `50px ${this.font.name} Bold`;
     ctx.globalAlpha = 1;
     ctx.fillStyle = this.avatar_border;
     ctx.shadowBlur = 9;
@@ -321,7 +321,7 @@ module.exports = class LevelUp {
     ctx.textAlign = "center";
     ctx.fillText(`${abbreviateNumber(this.levels.oldLevel)}`, 410, 85);
 
-    ctx.font = `28px ${this.font.name} Bold`;
+    ctx.font = `30px ${this.font.name} Bold`;
     ctx.globalAlpha = 1;
     ctx.fillStyle = "#f0f0f0";
     ctx.textAlign = "center";
