@@ -334,24 +334,25 @@ async build() {
 
     const canvas = createCanvas(850, 300);
     const ctx = canvas.getContext("2d");
-    if(this.border){
-    ctx.beginPath();
-    ctx.lineWidth = 8;
-    ctx.strokeStyle = this.border;
-    ctx.moveTo(55, 15);
-    ctx.lineTo(canvas.width - 55, 15);
-    ctx.quadraticCurveTo(canvas.width - 20, 20, canvas.width - 15, 55);
-    ctx.lineTo(canvas.width - 15, canvas.height - 55);
-    ctx.quadraticCurveTo(canvas.width - 20, canvas.height - 20, canvas.width - 55, canvas.height - 15);
-    ctx.lineTo(55, canvas.height - 15);
-    ctx.quadraticCurveTo(20, canvas.height - 20, 15, canvas.height - 55);
-    ctx.lineTo(15, 55);
-    ctx.quadraticCurveTo(20, 20, 55, 15);
-    ctx.lineTo(56, 15);
-    ctx.stroke();
-    ctx.closePath();
+
+    if (this.border) {
+        ctx.beginPath();
+        ctx.lineWidth = 8;
+        ctx.strokeStyle = this.border;
+        ctx.moveTo(55, 15);
+        ctx.lineTo(canvas.width - 55, 15);
+        ctx.quadraticCurveTo(canvas.width - 20, 20, canvas.width - 15, 55);
+        ctx.lineTo(canvas.width - 15, canvas.height - 55);
+        ctx.quadraticCurveTo(canvas.width - 20, canvas.height - 20, canvas.width - 55, canvas.height - 15);
+        ctx.lineTo(55, canvas.height - 15);
+        ctx.quadraticCurveTo(20, canvas.height - 20, 15, canvas.height - 55);
+        ctx.lineTo(15, 55);
+        ctx.quadraticCurveTo(20, 20, 55, 15);
+        ctx.lineTo(56, 15);
+        ctx.stroke();
+        ctx.closePath();
     }
-    
+
     ctx.beginPath();
     ctx.moveTo(65, 25);
     ctx.lineTo(canvas.width - 65, 25);
@@ -369,15 +370,15 @@ async build() {
     ctx.globalAlpha = 1;
 
     if (this.background.type === "color") {
-      ctx.beginPath();
-      ctx.fillStyle = this.background.background;
-      ctx.fillRect(10, 10, canvas.width - 20, canvas.height - 20)
+        ctx.beginPath();
+        ctx.fillStyle = this.background.background;
+        ctx.fillRect(10, 10, canvas.width - 20, canvas.height - 20);
     } else if (this.background.type === "image") {
-      try {
-        ctx.drawImage(await loadImage(this.background.background), 10, 10, canvas.width - 20, canvas.height - 20);
-      } catch {
-        throw new Error("The image given in the second parameter of the setBackground method is not valid or you are not connected to the internet.");
-      }
+        try {
+            ctx.drawImage(await loadImage(this.background.background), 10, 10, canvas.width - 20, canvas.height - 20);
+        } catch {
+            throw new Error("The image given in the second parameter of the setBackground method is not valid or you are not connected to the internet.");
+        }
     }
 
     ctx.beginPath();
@@ -403,36 +404,35 @@ async build() {
     const username = this.username.data.length > 15 ? this.username.data.slice(0, 15) + '...' : this.username.data;
     ctx.fillText(`${username}`, 258, 125);
 
-
     let level_text_width = 0;
     let level_width = 0;
 
     if (this.level.display == true) {
-      ctx.textAlign = "end";
-      ctx.fillStyle = this.level.number_color;
-      ctx.font = `${this.level.data_size}px ${this.font.name} Bold`;
-      ctx.fillText(this.level.data.toString().toUpperCase(), 250 + max_xp_bar_width, 90);
+        ctx.textAlign = "end";
+        ctx.fillStyle = this.level.text_color;
+        ctx.font = `${this.level.size}px ${this.font.name} Bold`;
+        ctx.fillText(this.level.text.toUpperCase(), 250 + max_xp_bar_width, 90);
 
-      level_width = ctx.measureText(this.level.data.toString()).width + 5;
+        level_text_width = ctx.measureText(this.level.text.toUpperCase()).width + 5;
 
-      ctx.fillStyle = this.level.text_color;
-      ctx.font = `${this.level.size}px ${this.font.name} Bold`;
-      ctx.fillText(this.level.text.toUpperCase(), 250 + max_xp_bar_width + level_width, 90);
+        ctx.fillStyle = this.level.number_color;
+        ctx.font = `${this.level.data_size}px ${this.font.name} Bold`;
+        ctx.fillText(this.level.data.toString().toUpperCase(), 250 + max_xp_bar_width - level_text_width, 90);
 
-      level_text_width = ctx.measureText(this.level.text).width + 30;
+        level_width = ctx.measureText(this.level.data.toString()).width + 30;
     }
 
     if (this.rank.display == true) {
-      ctx.textAlign = "end";
-      ctx.fillStyle = this.rank.number_color;
-      ctx.font = `${this.rank.data_size}px ${this.font.name} Bold`;
-      ctx.fillText(this.rank.data.toString().toUpperCase(), 200 + max_xp_bar_width - level_text_width - level_width, 90);
+        ctx.textAlign = "end";
+        ctx.fillStyle = this.rank.text_color;
+        ctx.font = `${this.rank.size}px ${this.font.name} Bold`;
+        ctx.fillText(this.rank.text.toUpperCase(), 200 + max_xp_bar_width - level_text_width - level_width, 90);
 
-      const rank_width = ctx.measureText(this.rank.data.toString().toUpperCase()).width + 5;
+        const rank_text_width = ctx.measureText(this.rank.text.toUpperCase()).width + 5;
 
-      ctx.fillStyle = this.rank.text_color;
-      ctx.font = `${this.rank.size}px ${this.font.name} Bold`;
-      ctx.fillText(this.rank.text.toUpperCase(), 200 + max_xp_bar_width - level_text_width - level_width + rank_width, 90);
+        ctx.fillStyle = this.rank.number_color;
+        ctx.font = `${this.rank.data_size}px ${this.font.name} Bold`;
+        ctx.fillText(this.rank.data.toString().toUpperCase(), 200 + max_xp_bar_width - level_text_width - level_width - rank_text_width, 90);
     }
 
     ctx.beginPath();
@@ -462,23 +462,19 @@ async build() {
     ctx.textAlign = "start";
     ctx.font = `23px ${this.font.name} Bold`;
     ctx.fillStyle = this.current_xp.color;
-    ctx.fillText(`${this.current_xp.data}`, 590, 162)
+    ctx.fillText(`${this.current_xp.data}`, 590, 162);
 
     ctx.fillStyle = this.required_xp.color;
-    ctx.fillText(` / ${this.required_xp.data}`, 590 + ctx.measureText(this.current_xp.data.toString()).width, 162)
+    ctx.fillText(` / ${this.required_xp.data}`, 590 + ctx.measureText(this.current_xp.data.toString()).width, 162);
     ctx.closePath();
 
-
-
-
-
     if (this.status) {
-      ctx.beginPath();
-      ctx.globalAlpha = 1;
-      ctx.arc(150, 150, 95, 0, Math.PI * 2);
-      ctx.fillStyle = this.status;
-      ctx.fill();
-      ctx.closePath();
+        ctx.beginPath();
+        ctx.globalAlpha = 1;
+        ctx.arc(150, 150, 95, 0, Math.PI * 2);
+        ctx.fillStyle = this.status;
+        ctx.fill();
+        ctx.closePath();
     }
 
     ctx.beginPath();
@@ -487,15 +483,16 @@ async build() {
     ctx.clip();
 
     try {
-      if (this.status) {
-        ctx.drawImage(await loadImage(this.avatar), 60, 60, 180, 180);
-      } else {
-        ctx.drawImage(await loadImage(this.avatar), 55, 55, 190, 190);
-      }
+        if (this.status) {
+            ctx.drawImage(await loadImage(this.avatar), 60, 60, 180, 180);
+        } else {
+            ctx.drawImage(await loadImage(this.avatar), 55, 55, 190, 190);
+        }
     } catch {
-      throw new Error("The image given in the argument of the setAvatar method is not valid or you are not connected to the internet.");
+        throw new Error("The image given in the argument of the setAvatar method is not valid or you are not connected to the internet.");
     }
 
     return canvas.toBuffer('image/png');
-  }
+}
+
 };
