@@ -270,7 +270,7 @@ module.exports = class LevelUp {
     ctx.globalAlpha = 1;
     ctx.fillStyle = this.title.color;
     ctx.textAlign = "left";
-    ctx.fillText(this.title.data.length > 10 ? this.title.data.substring(0,10)+".." : this.title.data, 133, 85);
+    ctx.fillText(this.title.data.length > 10 ? this.title.data.substring(0,10)+"..." : this.title.data, 133, 85);
 
     ctx.beginPath();
     ctx.globalAlpha = 1;
@@ -321,7 +321,7 @@ module.exports = class LevelUp {
     ctx.textAlign = "center";
     ctx.fillText(`${abbreviateNumber(this.levels.oldLevel)}`, 410, 85);
 
-    ctx.font = `30px ${this.font.name} Bold`;
+    ctx.font = `28px ${this.font.name} Bold`;
     ctx.globalAlpha = 1;
     ctx.fillStyle = "#f0f0f0";
     ctx.textAlign = "center";
