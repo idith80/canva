@@ -29,11 +29,12 @@ module.exports = class Rank {
     this.username = {
       data: "fivesobes",
       color: "#fff",
-      size: 28
+      size: 28,
+      data_size: 40
     };
     this.level = {
       data: 1,
-      display: false,
+      display: true,
       text: "المستوى",
       text_color: "#fff",
       number_color: "#fff",
@@ -42,7 +43,7 @@ module.exports = class Rank {
     };
     this.rank = {
       data: 1,
-      display: false,
+      display: true,
       text: "المرتبة",
       text_color: "#fff",
       number_color: "#fff",
@@ -325,16 +326,16 @@ module.exports = class Rank {
     return this;
   }
 
-  async build() {
-    if (this.font.path) GlobalFonts.registerFromPath(this.font.path, this.font.name);
+async build() {
+  if (this.font.path) GlobalFonts.registerFromPath(this.font.path, this.font.name);
 
-    const max_xp_bar_width = 500;
-    const xp_bar = Math.floor(this.current_xp.data / this.required_xp.data * max_xp_bar_width);
+  const max_xp_bar_width = 500;
+  const xp_bar = Math.floor(this.current_xp.data / this.required_xp.data * max_xp_bar_width);
 
+  const canvas = createCanvas(850, 300);
+  const ctx = canvas.getContext("2d");
 
-    const canvas = createCanvas(850, 300);
-    const ctx = canvas.getContext("2d");
-    if(this.border){
+  if(this.border){
     ctx.beginPath();
     ctx.lineWidth = 8;
     ctx.strokeStyle = this.border;
@@ -350,152 +351,135 @@ module.exports = class Rank {
     ctx.lineTo(56, 15);
     ctx.stroke();
     ctx.closePath();
-    }
-    
-    ctx.beginPath();
-    ctx.moveTo(65, 25);
-    ctx.lineTo(canvas.width - 65, 25);
-    ctx.quadraticCurveTo(canvas.width - 25, 25, canvas.width - 25, 65);
-    ctx.lineTo(canvas.width - 25, canvas.height - 65);
-    ctx.quadraticCurveTo(canvas.width - 25, canvas.height - 25, canvas.width - 65, canvas.height - 25);
-    ctx.lineTo(65, canvas.height - 25);
-    ctx.quadraticCurveTo(25, canvas.height - 25, 25, canvas.height - 65);
-    ctx.lineTo(25, 65);
-    ctx.quadraticCurveTo(25, 25, 65, 25);
-    ctx.lineTo(66, 25);
-    ctx.closePath();
-    ctx.clip();
-
-    ctx.globalAlpha = 1;
-
-    if (this.background.type === "color") {
-      ctx.beginPath();
-      ctx.fillStyle = this.background.background;
-      ctx.fillRect(10, 10, canvas.width - 20, canvas.height - 20)
-    } else if (this.background.type === "image") {
-      try {
-        ctx.drawImage(await loadImage(this.background.background), 10, 10, canvas.width - 20, canvas.height - 20);
-      } catch {
-        throw new Error("The image given in the second parameter of the setBackground method is not valid or you are not connected to the internet.");
-      }
-    }
-
-    ctx.beginPath();
-    ctx.globalAlpha = this.overlay_opacity;
-    ctx.fillStyle = "#000";
-    ctx.moveTo(75, 45);
-    ctx.lineTo(canvas.width - 75, 45);
-    ctx.quadraticCurveTo(canvas.width - 45, 45, canvas.width - 45, 75);
-    ctx.lineTo(canvas.width - 45, canvas.height - 75);
-    ctx.quadraticCurveTo(canvas.width - 45, canvas.height - 45, canvas.width - 75, canvas.height - 45);
-    ctx.lineTo(75, canvas.height - 45);
-    ctx.quadraticCurveTo(45, canvas.height - 45, 45, canvas.height - 75);
-    ctx.lineTo(45, 75);
-    ctx.quadraticCurveTo(45, 45, 75, 45);
-    ctx.fill();
-    ctx.closePath();
-
-    ctx.globalAlpha = 1;
-
-    ctx.font = `${this.username.size}px ${this.font.name} Bold`;
-    ctx.fillStyle = this.username.color;
-    ctx.textAlign = "start";
-    const username = this.username.data.length > 15 ? this.username.data.slice(0, 15) + '...' : this.username.data;
-    ctx.fillText(`${username}`, 258, 125);
-
-
-    let level_text_width = 0;
-    let level_width = 0;
-
-    if (this.level.display == true) {
-      ctx.textAlign = "end";
-      ctx.fillStyle = this.level.text_color;
-      ctx.font = `${this.level.data_size}px ${this.font.name} Bold`;
-      ctx.fillText(this.level.data.toString().toUpperCase(), 250 + max_xp_bar_width, 90);
-
-      level_width = ctx.measureText(this.level.data.toString()).width + 5;
-
-      ctx.fillStyle = this.level.number_color;
-      ctx.font = `${this.level.size}px ${this.font.name} Bold`;
-      ctx.fillText(this.level.text.toUpperCase(), 250 + max_xp_bar_width - level_width, 90);
-
-      level_text_width = ctx.measureText(this.level.text).width + 30;
-    }
-
-    if (this.rank.display == true) {
-      ctx.textAlign = "end";
-      ctx.fillStyle = this.rank.text_color;
-      ctx.font = `${this.rank.data_size}px ${this.font.name} Bold`;
-      ctx.fillText(this.rank.data.toString().toUpperCase(), 200 + max_xp_bar_width - level_text_width - level_width, 90);
-
-      const rank_width = ctx.measureText(this.rank.data.toString().toUpperCase()).width + 5;
-
-      ctx.fillStyle = this.rank.number_color;
-      ctx.font = `${this.rank.size}px ${this.font.name} Bold`;
-      ctx.fillText(this.rank.text.toUpperCase(), 200 + max_xp_bar_width - level_text_width - level_width - rank_width, 90);
-    }
-
-    ctx.beginPath();
-    ctx.globalAlpha = 1;
-    ctx.lineWidth = 2;
-    ctx.fillStyle = "#efeded";
-    ctx.moveTo(220, 135);
-    ctx.lineTo(200 + max_xp_bar_width, 135);
-    ctx.quadraticCurveTo(220 + max_xp_bar_width, 135, 220 + max_xp_bar_width, 152.5);
-    ctx.quadraticCurveTo(220 + max_xp_bar_width, 170, 200 + max_xp_bar_width, 170);
-    ctx.lineTo(220, 170);
-    ctx.lineTo(220, 135);
-    ctx.fill();
-    ctx.closePath();
-
-    ctx.beginPath();
-    ctx.globalAlpha = 1;
-    ctx.lineWidth = 2;
-    ctx.fillStyle = this.bar.color;
-    ctx.moveTo(220, 135);
-    ctx.lineTo(200 + xp_bar, 135);
-    ctx.quadraticCurveTo(220 + xp_bar, 135, 220 + xp_bar, 152.5);
-    ctx.quadraticCurveTo(220 + xp_bar, 170, 200 + xp_bar, 170);
-    ctx.lineTo(220, 170);
-    ctx.lineTo(220, 135);
-    ctx.fill();
-    ctx.textAlign = "start";
-    ctx.font = `23px ${this.font.name} Bold`;
-    ctx.fillStyle = this.current_xp.color;
-    ctx.fillText(`${this.current_xp.data}`, 590, 162)
-
-    ctx.fillStyle = this.required_xp.color;
-    ctx.fillText(` / ${this.required_xp.data}`, 590 + ctx.measureText(this.current_xp.data.toString()).width, 162)
-    ctx.closePath();
-
-
-
-
-
-    if (this.status) {
-      ctx.beginPath();
-      ctx.globalAlpha = 1;
-      ctx.arc(150, 150, 95, 0, Math.PI * 2);
-      ctx.fillStyle = this.status;
-      ctx.fill();
-      ctx.closePath();
-    }
-
-    ctx.beginPath();
-    ctx.arc(150, 150, this.status ? 90 : 95, 0, Math.PI * 2);
-    ctx.closePath();
-    ctx.clip();
-
-    try {
-      if (this.status) {
-        ctx.drawImage(await loadImage(this.avatar), 60, 60, 180, 180);
-      } else {
-        ctx.drawImage(await loadImage(this.avatar), 55, 55, 190, 190);
-      }
-    } catch {
-      throw new Error("The image given in the argument of the setAvatar method is not valid or you are not connected to the internet.");
-    }
-
-    return canvas.toBuffer('image/png');
   }
+
+  ctx.beginPath();
+  ctx.moveTo(65, 25);
+  ctx.lineTo(canvas.width - 65, 25);
+  ctx.quadraticCurveTo(canvas.width - 25, 25, canvas.width - 25, 65);
+  ctx.lineTo(canvas.width - 25, canvas.height - 65);
+  ctx.quadraticCurveTo(canvas.width - 25, canvas.height - 25, canvas.width - 65, canvas.height - 25);
+  ctx.lineTo(65, canvas.height - 25);
+  ctx.quadraticCurveTo(25, canvas.height - 25, 25, canvas.height - 65);
+  ctx.lineTo(25, 65);
+  ctx.quadraticCurveTo(25, 25, 65, 25);
+  ctx.lineTo(66, 25);
+  ctx.closePath();
+  ctx.clip();
+
+  ctx.globalAlpha = 1;
+
+  if (this.background.type === "color") {
+    ctx.beginPath();
+    ctx.fillStyle = this.background.background;
+    ctx.fillRect(10, 10, canvas.width - 20, canvas.height - 20);
+  } else if (this.background.type === "image") {
+    try {
+      ctx.drawImage(await loadImage(this.background.background), 10, 10, canvas.width - 20, canvas.height - 20);
+    } catch {
+      throw new Error("The image given in the second parameter of the setBackground method is not valid or you are not connected to the internet.");
+    }
+  }
+
+  ctx.beginPath();
+  ctx.globalAlpha = this.overlay_opacity;
+  ctx.fillStyle = "#000";
+  ctx.moveTo(75, 45);
+  ctx.lineTo(canvas.width - 75, 45);
+  ctx.quadraticCurveTo(canvas.width - 45, 45, canvas.width - 45, 75);
+  ctx.lineTo(canvas.width - 45, canvas.height - 75);
+  ctx.quadraticCurveTo(canvas.width - 45, canvas.height - 45, canvas.width - 75, canvas.height - 45);
+  ctx.lineTo(75, canvas.height - 45);
+  ctx.quadraticCurveTo(45, canvas.height - 45, 45, canvas.height - 75);
+  ctx.lineTo(45, 75);
+  ctx.quadraticCurveTo(45, 45, 75, 45);
+  ctx.fill();
+  ctx.closePath();
+
+  ctx.globalAlpha = 1;
+
+  ctx.font = `${this.username.size}px ${this.font.name} Bold`;
+  ctx.fillStyle = this.username.color;
+  ctx.textAlign = "start";
+  const username = this.username.data.length > 15 ? this.username.data.slice(0, 15) + '...' : this.username.data;
+  ctx.fillText(`${username}`, 258, 125);
+
+  if (this.level.display == true) {
+    ctx.textAlign = "start";
+    ctx.fillStyle = this.level.text_color;
+    ctx.font = `${this.level.size}px ${this.font.name} Bold`;
+    const levelText = this.level.text.toUpperCase();
+    const levelNumber = this.level.data.toString().toUpperCase();
+    ctx.fillText(`${levelText} : ${levelNumber}`, 258, 90);
+  }
+
+  if (this.rank.display == true) {
+    ctx.textAlign = "start";
+    ctx.fillStyle = this.rank.text_color;
+    ctx.font = `${this.rank.size}px ${this.font.name} Bold`;
+    const rankText = this.rank.text.toUpperCase();
+    const rankNumber = this.rank.data.toString().toUpperCase();
+    ctx.fillText(`${rankText} : ${rankNumber}`, 258, 130);
+  }
+
+  ctx.beginPath();
+  ctx.globalAlpha = 1;
+  ctx.lineWidth = 2;
+  ctx.fillStyle = "#efeded";
+  ctx.moveTo(220, 135);
+  ctx.lineTo(200 + max_xp_bar_width, 135);
+  ctx.quadraticCurveTo(220 + max_xp_bar_width, 135, 220 + max_xp_bar_width, 152.5);
+  ctx.quadraticCurveTo(220 + max_xp_bar_width, 170, 200 + max_xp_bar_width, 170);
+  ctx.lineTo(220, 170);
+  ctx.lineTo(220, 135);
+  ctx.fill();
+  ctx.closePath();
+
+  ctx.beginPath();
+  ctx.globalAlpha = 1;
+  ctx.lineWidth = 2;
+  ctx.fillStyle = this.bar.color;
+  ctx.moveTo(220, 135);
+  ctx.lineTo(200 + xp_bar, 135);
+  ctx.quadraticCurveTo(220 + xp_bar, 135, 220 + xp_bar, 152.5);
+  ctx.quadraticCurveTo(220 + xp_bar, 170, 200 + xp_bar, 170);
+  ctx.lineTo(220, 170);
+  ctx.lineTo(220, 135);
+  ctx.fill();
+  ctx.textAlign = "start";
+  ctx.font = `23px ${this.font.name} Bold`;
+  ctx.fillStyle = this.current_xp.color;
+  ctx.fillText(`${this.current_xp.data}`, 590, 162);
+
+  ctx.fillStyle = this.required_xp.color;
+  ctx.fillText(` / ${this.required_xp.data}`, 590 + ctx.measureText(this.current_xp.data.toString()).width, 162);
+  ctx.closePath();
+
+  if (this.status) {
+    ctx.beginPath();
+    ctx.globalAlpha = 1;
+    ctx.arc(150, 150, 95, 0, Math.PI * 2);
+    ctx.fillStyle = this.status;
+    ctx.fill();
+    ctx.closePath();
+  }
+
+  ctx.beginPath();
+  ctx.arc(150, 150, this.status ? 90 : 95, 0, Math.PI * 2);
+  ctx.closePath();
+  ctx.clip();
+
+  try {
+    if (this.status) {
+      ctx.drawImage(await loadImage(this.avatar), 60, 60, 180, 180);
+    } else {
+      ctx.drawImage(await loadImage(this.avatar), 55, 55, 190, 190);
+    }
+  } catch {
+    throw new Error("The image given in the argument of the setAvatar method is not valid or you are not connected to the internet.");
+  }
+
+  return canvas.toBuffer('image/png');
+}
+
 };
