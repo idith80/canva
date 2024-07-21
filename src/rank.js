@@ -35,7 +35,7 @@ module.exports = class Rank {
     this.level = {
       data: 1,
       display: true,
-      text: "المستوى",
+      text: ": المستوى",
       text_color: "#fff",
       number_color: "#fff",
       size: 28,
@@ -44,7 +44,7 @@ module.exports = class Rank {
     this.rank = {
       data: 1,
       display: true,
-      text: "المرتبة",
+      text: ": المرتبة",
       text_color: "#fff",
       number_color: "#fff",
       size: 28,
@@ -417,8 +417,8 @@ module.exports = class Rank {
       level_width = ctx.measureText(this.level.data.toString()).width + 5;
 
       ctx.fillStyle = this.level.number_color;
-      ctx.font = ` ${this.font.name} Bold ${this.level.size}px`;
-      ctx.fillText(this.level.text.toUpperCase(), 250 + max_xp_bar_width - level_width, 90);
+      ctx.font = `${this.level.size}px ${this.font.name} Bold`;
+      ctx.fillText(max_xp_bar_width - level_width, 90 + this.level.text.toUpperCase(), 250);
 
       level_text_width = ctx.measureText(this.level.text).width + 30;
     }
