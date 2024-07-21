@@ -326,12 +326,11 @@ module.exports = class Rank {
     return this;
   }
 
-  async build() {
+async build() {
     if (this.font.path) GlobalFonts.registerFromPath(this.font.path, this.font.name);
 
     const max_xp_bar_width = 500;
     const xp_bar = Math.floor(this.current_xp.data / this.required_xp.data * max_xp_bar_width);
-
 
     const canvas = createCanvas(850, 300);
     const ctx = canvas.getContext("2d");
@@ -407,31 +406,35 @@ module.exports = class Rank {
 
     let level_text_width = 0;
     let level_width = 0;
-    
-// Replace this section in the build method
-if (this.level.display == true) {
-  ctx.textAlign = "start"; // Change to start for left alignment
-  ctx.fillStyle = this.level.number_color; // Draw number first
-  ctx.font = `${this.level.data_size}px ${this.font.name} Bold`;
-  ctx.fillText(this.level.data.toString().toUpperCase(), 250 + max_xp_bar_width - level_text_width - level_width - 5, 90); // Adjust x position
 
-  ctx.fillStyle = this.level.text_color; // Draw text second
-  ctx.font = `${this.level.size}px ${this.font.name} Bold`;
-  ctx.fillText(this.level.text.toUpperCase(), 250 + max_xp_bar_width - level_text_width - level_width + ctx.measureText(this.level.data.toString()).width, 90); // Adjust x position
-}
+    if (this.level.display == true) {
+      ctx.textAlign = "end";
+      ctx.fillStyle = this.level.number_color;
+      ctx.font = `${this.level.data_size}px ${this.font.name} Bold`;
+      ctx.fillText(this.level.data.toString().toUpperCase(), 250 + max_xp_bar_width, 90);
 
-if (this.rank.display == true) {
-  ctx.textAlign = "start"; // Change to start for left alignment
-  ctx.fillStyle = this.rank.number_color; // Draw number first
-  ctx.font = `${this.rank.data_size}px ${this.font.name} Bold`;
-  ctx.fillText(this.rank.data.toString().toUpperCase(), 200 + max_xp_bar_width - level_text_width - level_width - rank_width - 5, 90); // Adjust x position
+      level_width = ctx.measureText(this.level.data.toString()).width + 5;
 
-  ctx.fillStyle = this.rank.text_color; // Draw text second
-  ctx.font = `${this.rank.size}px ${this.font.name} Bold`;
-  ctx.fillText(this.rank.text.toUpperCase(), 200 + max_xp_bar_width - level_text_width - level_width - rank_width + ctx.measureText(this.rank.data.toString()).width, 90); // Adjust x position
-}
+      ctx.fillStyle = this.level.text_color;
+      ctx.font = `${this.level.size}px ${this.font.name} Bold`;
+      ctx.fillText(this.level.text.toUpperCase(), 250 + max_xp_bar_width + level_width, 90);
 
-    
+      level_text_width = ctx.measureText(this.level.text).width + 30;
+    }
+
+    if (this.rank.display == true) {
+      ctx.textAlign = "end";
+      ctx.fillStyle = this.rank.number_color;
+      ctx.font = `${this.rank.data_size}px ${this.font.name} Bold`;
+      ctx.fillText(this.rank.data.toString().toUpperCase(), 200 + max_xp_bar_width - level_text_width - level_width, 90);
+
+      const rank_width = ctx.measureText(this.rank.data.toString().toUpperCase()).width + 5;
+
+      ctx.fillStyle = this.rank.text_color;
+      ctx.font = `${this.rank.size}px ${this.font.name} Bold`;
+      ctx.fillText(this.rank.text.toUpperCase(), 200 + max_xp_bar_width - level_text_width - level_width + rank_width, 90);
+    }
+
     ctx.beginPath();
     ctx.globalAlpha = 1;
     ctx.lineWidth = 2;
